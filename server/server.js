@@ -31,6 +31,7 @@ app.get('/todos',(req,res)=>{
     });
 });
 
+//Add todos by POST method
 
 app.post('/todos',(req,res)=>{
   var newTodo=new Todo({
@@ -44,6 +45,8 @@ app.post('/todos',(req,res)=>{
   });
 
 });
+
+//Get todos by Id
 
 app.get('/todos/:id',(req,res)=>{
   var id=req.params.id;
@@ -59,6 +62,25 @@ app.get('/todos/:id',(req,res)=>{
    }).catch((e,res)=>{
      res.status(400).send({});
    });
+});
+
+//Delete todos by ID
+
+app.delete('/todos/:id',(req,res)=>{
+  var id=req.params.id;
+  if(!ObjectID.isValid(id)){
+    return res.status(404).send();
+  }
+
+  Todo.findByIdAndRemove(id).then((todo)=>{
+    if(!todo){
+      return res.status(404).send();
+    }
+
+    res.status(200).send({todo});
+  }).catch((e)=>{
+    return res.status(400).send({});
+  })
 });
 
 app.listen(port,()=>{
