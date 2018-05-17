@@ -1,4 +1,4 @@
-require('/config/config');
+require('./config/config');
 
 const _=require("lodash");
 const express=require('express');
@@ -13,17 +13,6 @@ var app=express();
 const port=process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-
-// app.post('/Users',(req,res)=>{
-//   var newUser=new User({
-//     email:req.body.text
-//   });
-//   newUser.save().then((doc)=>{
-//     res.send(doc);
-//   },(err)=>{
-//     res.status(404).send(err);
-//   });
-// });
 
 
 app.get('/todos',(req,res)=>{
@@ -108,8 +97,28 @@ res.send({todo});
 
 }).catch((e)=>{
   res.status(400).send();
-})
-})
+});
+});
+
+//instance method will be called on individual user 
+// Model method will be called on User model
+
+//user.generateAuthToken
+//User.findByToken
+app.post('/users',(req,res)=>{
+  var body=_.pick(req.body,["email","password"]);
+  var user=new User(body);
+
+   user.save().then(()=>{
+   return user.generateAuthToken();
+  }).then((token)=>{
+    res.header('x-auth',token).send(user)
+  }).catch((error)=>{
+    res.status(400).send(error);
+  })
+  });
+
+
 
 app.listen(port,()=>{
   console.log(`Started on port ${port}`);
