@@ -2,16 +2,19 @@ const {SHA256}=require('crypto-js');
 
 const jwt=require('jsonwebtoken');
 
-var data={
-  id:5
-}
+// var data={
+//   id:5
+// }
 
-var token= jwt.sign(data,"123abc");
-console.log(token);
+// var token= jwt.sign(data,"123abc");
+// console.log(token);
 
-var decoded=jwt.verify(token,"123abc");
+// var decoded=jwt.verify(token,"123abc");
 
-console.log('decoded variable',decoded);
+// console.log('decoded variable',decoded);
+
+
+
 // var message='I am karishma';
 //
 // var hash=SHA256(message).toString();
