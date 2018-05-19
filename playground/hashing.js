@@ -1,6 +1,31 @@
 const {SHA256}=require('crypto-js');
 
 const jwt=require('jsonwebtoken');
+const bcrypt=require('bcryptjs');
+
+var password="hello1!";
+
+// bcrypt.genSalt(10,(err,salt)=>{
+//   bcrypt.hash(password,salt,(err,hash)=>{
+//     console.log(hash);
+//   });
+
+  var hashedPasword='$2a$10$d0mmDZ3NGXxyH2BRvB6XPOEhTNxVLR4qyUZgxXPXSy/25WY4Z5OGS';
+
+  bcrypt.compare('password',hashedPasword,(err,success)=>{
+    console.log(success);
+  });
+
+
+
+
+
+
+
+
+
+
+
 
 // var data={
 //   id:5
@@ -12,7 +37,6 @@ const jwt=require('jsonwebtoken');
 // var decoded=jwt.verify(token,"123abc");
 
 // console.log('decoded variable',decoded);
-
 
 
 // var message='I am karishma';
@@ -41,3 +65,10 @@ const jwt=require('jsonwebtoken');
 //   }else{
 //     console.log("Donot trust");
 //   }
+
+
+
+
+
+
+
