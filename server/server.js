@@ -3,6 +3,7 @@ require('./config/config');
 const _=require("lodash");
 const express=require('express');
 const bodyParser=require("body-parser");
+const bcrypt=require("bcryptjs");
 var {ObjectID}=require('mongodb');
 
 var {mongoose} =require('./db/mongoose');
@@ -127,6 +128,19 @@ app.get('/users/login',authenticate,(req,res)=>{
     res.send(req.user);
   
 });
+
+app.post('/users/login',(req,res)=>{
+  var body=_.pick(req.body,["email","password"]);
+
+  User.findByCredentials(body.email,body.password).then((user)=>{
+    return user.generateAuthToken().then((token)=>{
+    res.header('x-auth',token).send(user);
+    });
+  }).catch((e)=>{
+    res.status(401).send({'error':'Invalid Credentials'});
+  })
+})
+
 
 
 app.listen(port,()=>{
